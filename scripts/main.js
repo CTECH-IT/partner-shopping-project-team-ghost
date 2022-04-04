@@ -1,1 +1,3 @@
-// Put your JavaScript here
+import { DataStore } from "./DataStore";
+
+DataStore.set("a", "a")
