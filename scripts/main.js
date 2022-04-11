@@ -1,3 +1,4 @@
-import { DataStore } from "./DataStore";
+import { DataStore } from "./DataStore.js";
 
-DataStore.set("a", "a")
+DataStore.pull();
+console.log(DataStore.get("orders"));
