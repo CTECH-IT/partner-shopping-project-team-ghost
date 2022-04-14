@@ -2,33 +2,39 @@ export class DataStore {
   static DB_URL = "http://saturn.rochesterschools.org:8080/json";
   static DB_KEY = "ghost-energy";
   static DEFAULT_ENTRY = {
-    emailAddress: this.DB_KEY,
-    data: {
-      orders: [],
-      discounts: []
-    }
+    emailAddress: DataStore.DB_KEY,
+    orders: [],
+    discounts: []
   };
 
   static $ = window.jQuery;
-  static DB;
+  static DB = DataStore.pull();
 
   static pull() {
     let content;
-    this.$.get(this.DB_URL + "?emailAddress=" + this.DB_KEY, (res) => {
-      content = res;
-    });
-    return content || this.DEFAULT_ENTRY;
+    DataStore.$.get(
+      DataStore.DB_URL + "?emailAddress=" + DataStore.DB_KEY,
+      (res) => {
+        content = res;
+      }
+    );
+    if (content) content = content.map((e) => JSON.parse(e));
+    return content || DataStore.DEFAULT_ENTRY;
   }
 
-  static push() {
-    this.$.post(this.DB_URL, this.DB);
+  static push(newDB) {
+    DataStore.$.post(
+      DataStore.DB_URL,
+      newDB.map((e) => JSON.parse(e)) || DataStore.DB.map((e) => JSON.parse(e)),
+      (res) => console.log(res)
+    );
   }
 
   static get(key) {
-    return this.DB.data[key];
+    return DataStore.DB[key];
   }
 
   static set(key, val) {
-    this.DB.data[key] = val;
+    DataStore.DB[key] = val;
   }
 }

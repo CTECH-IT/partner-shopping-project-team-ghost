@@ -1,4 +1,4 @@
 import { DataStore } from "./DataStore.js";
 
-DataStore.pull();
+window.DataStore = DataStore;
 console.log(DataStore.get("orders"));
