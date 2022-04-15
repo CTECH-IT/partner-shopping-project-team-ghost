@@ -4,7 +4,7 @@ export class DataStore {
   static DEFAULT_ENTRY = {
     emailAddress: DataStore.DB_KEY,
     orders: [],
-    discounts: [],
+    discounts: []
   };
 
   static $ = window.jQuery;
@@ -25,11 +25,12 @@ export class DataStore {
   }
 
   static push(newDB) {
-    DataStore.$.post(
-      DataStore.DB_URL,
-      DataStore.parseEachToString(newDB) || DataStore.parseEachToString(DataStore.DB),
-      (res) => console.log(res)
-    );
+    if (newDB) {
+      newDB = DataStore.parseEachToString(newDB);
+    } else {
+      newDB = DataStore.parseEachToString(DataStore.DB);
+    }
+    DataStore.$.post(DataStore.DB_URL, newDB, (res) => console.log(res));
   }
 
   static get(key) {
@@ -41,16 +42,18 @@ export class DataStore {
   }
 
   static parseEachToString(json) {
-    json.keys.forEach((k) => {
-      json[k] = JSON.stringify(json[k]);
+    let newJSON = { emailAddress: DataStore.DB_KEY };
+    Object.keys(json).forEach((k) => {
+      if (k != "emailAddress") newJSON[k] = JSON.stringify(json[k]);
     });
-    return json;
+    return newJSON;
   }
 
   static parseEachToJSON(json) {
-    json.keys.forEach((k) => {
-      json[k] = JSON.parse(json[k]);
+    let newJSON = { emailAddress: DataStore.DB_KEY };
+    Object.keys(json).forEach((k) => {
+      if (k != "emailAddress") newJSON[k] = JSON.parse(json[k]);
     });
-    return json;
+    return newJSON;
   }
 }

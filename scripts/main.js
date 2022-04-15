@@ -1,4 +1,6 @@
 import { DataStore } from "./DataStore.js";
-
 window.DataStore = DataStore;
-console.log(DataStore.get("orders"));
+
+import { Selection } from "./Selection.js";
+window.Selection = Selection;
+Selection.initializeFlavors();
