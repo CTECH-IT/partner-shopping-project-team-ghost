@@ -5,4 +5,5 @@ import { Cart } from "./Cart.js";
 window.DataStore = DataStore;
 window.Selection = Selection;
 Cart.initializeCart();
+Checkout.initializeCheckout();
 Selection.initializeFlavors();
