@@ -1,12 +1,17 @@
+import { Cart } from "./Cart.js";
+import { DataStore } from "./DataStore.js";
+
 export class Selection {
   static FLAVOR_IMAGE_ATTRIBUTE = "data-flavor-image";
   static FLAVOR_TITLE_ATTRIBUTE = "data-flavor-title";
   static FLAVOR_DESCRIPTION_ATTRIBUTE = "data-flavor-description";
   static FLAVOR_OPTION_ATTRIBUTE = "data-flavor-option";
+  static BUTTON_ADD_ATTRIBUTE = "data-button-add";
   static FLAVOR_IMAGE_SELECTOR = `[${Selection.FLAVOR_IMAGE_ATTRIBUTE}]`;
   static FLAVOR_TITLE_SELECTOR = `[${Selection.FLAVOR_TITLE_ATTRIBUTE}]`;
   static FLAVOR_DESCRIPTION_SELECTOR = `[${Selection.FLAVOR_DESCRIPTION_ATTRIBUTE}]`;
   static FLAVOR_BUTTON_SELECTOR = `[${Selection.FLAVOR_OPTION_ATTRIBUTE}]`;
+  static BUTTON_ADD_SELECTOR = `[${Selection.BUTTON_ADD_ATTRIBUTE}]`;
   static FLAVORS = {
     blueraz: {
       title: "Blue Raz",
@@ -31,6 +36,7 @@ export class Selection {
   static flavorImgElement;
   static flavorTitleElement;
   static flavorDescriptionElement;
+  static buttonAddElement;
 
   static currentFlavor = "blueraz";
 
@@ -56,13 +62,17 @@ export class Selection {
     Selection.flavorDescriptionElement = document.querySelector(
       Selection.FLAVOR_DESCRIPTION_SELECTOR
     );
+    Selection.buttonAddElement = document.querySelector(
+      Selection.BUTTON_ADD_SELECTOR
+    );
+    Selection.buttonAddElement.addEventListener("click", (e) => {
+      Cart.order[Selection.currentFlavor]++;
+      Cart.openCartModal();
+    });
     Selection.updateFlavor();
   }
 
   static updateFlavor(oldFlavor) {
-    let oldFlavorData = oldFlavor
-      ? Selection.FLAVORS[Selection.oldFlavor]
-      : null;
     let flavorData = Selection.FLAVORS[Selection.currentFlavor];
 
     Selection.flavorImgElement.style.setProperty(
@@ -71,7 +81,7 @@ export class Selection {
     );
     if (oldFlavor) {
       Selection.flavorImgElement.parentElement.classList.remove(
-        oldFlavorData.colorClass
+        Selection.FLAVORS[oldFlavor].colorClass
       );
     }
     Selection.flavorImgElement.parentElement.classList.add(

@@ -1,6 +1,8 @@
 import { DataStore } from "./DataStore.js";
-window.DataStore = DataStore;
-
 import { Selection } from "./Selection.js";
+import { Cart } from "./Cart.js";
+
+window.DataStore = DataStore;
 window.Selection = Selection;
+Cart.initializeCart();
 Selection.initializeFlavors();
