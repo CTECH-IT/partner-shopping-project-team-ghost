@@ -1,4 +1,5 @@
 import { DataStore } from "./DataStore.js";
+import { Cart } from "./Cart.js";
 
 export class Checkout {
   static CHECKOUT_MODAL_ATTRIBUTE = "data-checkout-modal";
@@ -10,7 +11,7 @@ export class Checkout {
     Checkout.checkoutModalElement = document.querySelector(
       Checkout.CHECKOUT_MODAL_SELECTOR
     );
-    Checkout.checkoutModalElement.addEventListener((e) => {
+    Checkout.checkoutModalElement.addEventListener("click", (e) => {
       Checkout.checkOut();
     });
   }
@@ -31,10 +32,12 @@ export class Checkout {
     order.address = document.querySelector("data-checkout-address");
     order.state = document.querySelector("data-checkout-state");
     order.zip = document.querySelector("data-checkout-zip");
-    order.cc.n = document.querySelector("data-checkout-cc-n");
-    order.cc.e = document.querySelector("data-checkout-cc-e");
-    order.cc.c = document.querySelector("data-checkout-cc-c");
-    DataStore.set("orders", DataStore.get("orders").push(order));
+    order.ccn = document.querySelector("data-checkout-cc-n");
+    order.cce = document.querySelector("data-checkout-cc-e");
+    order.ccc = document.querySelector("data-checkout-cc-c");
+    let orders = DataStore.get("orders");
+    orders.push(order);
+    DataStore.set("orders", orders);
     DataStore.push();
     Checkout.closeCheckoutModal();
   }

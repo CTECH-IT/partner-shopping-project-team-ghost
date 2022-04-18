@@ -1,4 +1,4 @@
-import { Checkout } from "./Checkout";
+import { Checkout } from "./Checkout.js";
 export class Cart {
   static CART_MODAL_ATTRIBUTE = "data-cart-modal";
   static CART_CONTINUE_ATTRIBUTE = "data-cart-continue";
