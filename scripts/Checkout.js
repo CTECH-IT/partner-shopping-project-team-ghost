@@ -26,7 +26,7 @@ export class Checkout {
     Checkout.checkoutModalElement.classList.add("-translate-x-full");
   }
 
-  static checkOut() {
+  static async checkOut() {
     let order = {};
     order.order = Cart.order;
     order.name = document.querySelector("[data-checkout-name]").value;
@@ -37,8 +37,9 @@ export class Checkout {
     order.ccn = document.querySelector("[data-checkout-cc-n]").value;
     order.cce = document.querySelector("[data-checkout-cc-e]").value;
     order.ccc = document.querySelector("[data-checkout-cc-c]").value;
-    let orders = DataStore.get("orders");
+    let orders = await DataStore.get("orders");
     orders.push(order);
+    DataStore.pull();
     DataStore.set("orders", orders);
     DataStore.push();
     Checkout.closeCheckoutModal();

@@ -10,18 +10,15 @@ export class DataStore {
   static $ = window.jQuery;
   static DB = DataStore.pull();
 
-  static pull() {
+  static async pull() {
     let content;
-    DataStore.$.get(
+    await DataStore.$.get(
       DataStore.DB_URL + "?emailAddress=" + DataStore.DB_KEY,
       (res) => {
-        content = res;
+        content = DataStore.parseEachToJSON(res) || DataStore.DEFAULT_ENTRY;
       }
     );
-    if (content) {
-      content = DataStore.parseEachToJSON(content);
-    }
-    return content || DataStore.DEFAULT_ENTRY;
+    return content;
   }
 
   static push(newDB) {
@@ -33,7 +30,8 @@ export class DataStore {
     DataStore.$.post(DataStore.DB_URL, newDB, (res) => console.log(res));
   }
 
-  static get(key) {
+  static async get(key) {
+    DataStore.DB = await DataStore.pull();
     return DataStore.DB[key];
   }
 
