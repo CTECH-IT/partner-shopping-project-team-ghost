@@ -1,39 +1,63 @@
 import { DataStore } from "./DataStore.js";
 
-run();
+let orders;
+let newCard;
 
-async function run() {
+initialize();
+
+async function initialize() {
   window.DataStore = DataStore;
-  let orders = await DataStore.get("orders");
-  let newCard = await getNewCard();
-  orders.forEach((e, i) => {
-    let orderCard = document.createElement("div");
-    orderCard.setAttribute("data-card", i);
-    orderCard.innerHTML = newCard;
-    document.querySelector("[data-admin-orders]").appendChild(orderCard);
-  });
-  document.querySelectorAll("[data-card]").forEach((e, i) => {
-    let order = orders[i];
-    e.querySelector("[data-card-name]").innerText = order.name;
-    e.querySelector("[data-card-phone]").innerText = order.phone;
-    e.querySelector("[data-card-address]").innerText = order.address;
-    e.querySelector("[data-card-blueraz]").innerText = order.order.blueraz;
-    e.querySelector("[data-card-cherrybomb]").innerText =
-      order.order.cherrybomb;
-    e.querySelector("[data-card-limesplosion]").innerText =
-      order.order.limesplosion;
-    e.querySelectorAll("[data-card-delete]").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        e.remove();
-        let newOrders = await DataStore.get("orders");
-        newOrders.splice(i, 1);
-        DataStore.set("orders", newOrders);
-        DataStore.push();
-      });
-    });
-  });
+  orders = await DataStore.get("orders");
+  newCard = await getNewCard();
+  update();
 }
 
 async function getNewCard() {
   return await (await fetch("../ordercard.html")).text();
+}
+
+async function update() {
+  let checkNew = await DataStore.get("orders");
+  if (checkNew != orders) {
+    orders = checkNew;
+    document.querySelector("[data-admin-orders]").innerHTML = "";
+    orders.forEach((e, i) => {
+      let orderCard = document.createElement("div");
+      orderCard.setAttribute("data-card", i);
+      orderCard.innerHTML = newCard;
+      document.querySelector("[data-admin-orders]").appendChild(orderCard);
+    });
+    document.querySelectorAll("[data-card]").forEach((e, i) => {
+      let order = orders[i];
+      e.querySelector("[data-card-name]").innerText = order.name;
+      e.querySelector("[data-card-phone]").innerText = order.phone;
+      e.querySelector("[data-card-address]").innerText = order.address;
+      e.querySelector("[data-card-blueraz]").innerText = order.order.blueraz;
+      e.querySelector("[data-card-cherrybomb]").innerText =
+        order.order.cherrybomb;
+      e.querySelector("[data-card-limesplosion]").innerText =
+        order.order.limesplosion;
+      e.querySelectorAll("[data-card-delete]").forEach((button) => {
+        button.addEventListener("click", async (event) => {
+          e.remove();
+          let newOrders = await DataStore.get("orders");
+          newOrders.splice(i, 1);
+          DataStore.set("orders", newOrders);
+          DataStore.push();
+          updateSadness();
+        });
+      });
+    });
+    updateSadness();
+  }
+  setTimeout(() => update(), 100);
+}
+
+function updateSadness() {
+  if (!document.querySelector("[data-card]")) {
+    let sadness = document.createElement("span");
+    sadness.innerText =
+      "No orders yet. You must coerce more customers to fall for your sca-- I mean, buy your product.";
+    document.querySelector("[data-admin-orders]").appendChild(sadness);
+  }
 }

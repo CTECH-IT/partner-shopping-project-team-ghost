@@ -77,6 +77,9 @@ export class Selection {
       Selection.BUTTON_ADD_SELECTOR
     );
     Selection.buttonAddElement.addEventListener("click", (e) => {
+      Cart.order[Selection.currentFlavor] = parseInt(
+        Cart.order[Selection.currentFlavor]
+      );
       Cart.order[Selection.currentFlavor] += parseInt(
         document.querySelector('[data-button-quantity="order"]').value
       );
