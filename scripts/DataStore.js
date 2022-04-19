@@ -15,7 +15,8 @@ export class DataStore {
     await DataStore.$.get(
       DataStore.DB_URL + "?emailAddress=" + DataStore.DB_KEY,
       (res) => {
-        content = DataStore.parseEachToJSON(res) || DataStore.DEFAULT_ENTRY;
+        if (res) content = DataStore.parseEachToJSON(res);
+        else content = DataStore.DEFAULT_ENTRY;
       }
     );
     return content;

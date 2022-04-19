@@ -5,6 +5,7 @@ import { Checkout } from "./Checkout.js";
 
 window.DataStore = DataStore;
 window.Selection = Selection;
+window.Cart = Cart;
 Cart.initializeCart();
 Checkout.initializeCheckout();
 Selection.initializeFlavors();

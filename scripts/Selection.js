@@ -62,11 +62,24 @@ export class Selection {
     Selection.flavorDescriptionElement = document.querySelector(
       Selection.FLAVOR_DESCRIPTION_SELECTOR
     );
+    document
+      .querySelector('[data-button-minus="order"]')
+      .addEventListener("click", (e) => {
+        let element = document.querySelector('[data-button-quantity="order"]');
+        if (element.value > 1) element.value--;
+      });
+    document
+      .querySelector('[data-button-plus="order"]')
+      .addEventListener("click", (e) => {
+        document.querySelector('[data-button-quantity="order"]').value++;
+      });
     Selection.buttonAddElement = document.querySelector(
       Selection.BUTTON_ADD_SELECTOR
     );
     Selection.buttonAddElement.addEventListener("click", (e) => {
-      Cart.order[Selection.currentFlavor]++;
+      Cart.order[Selection.currentFlavor] += parseInt(
+        document.querySelector('[data-button-quantity="order"]').value
+      );
       Cart.openCartModal();
     });
     Selection.updateFlavor();
