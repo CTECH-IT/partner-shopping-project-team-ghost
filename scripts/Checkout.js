@@ -28,10 +28,12 @@ export class Checkout {
 
   static openCheckoutModal() {
     Checkout.checkoutModalElement.classList.remove("-translate-x-full");
+    document.querySelector("#nav").classList.add("drop-shadow-md");
   }
 
   static closeCheckoutModal() {
     Checkout.checkoutModalElement.classList.add("-translate-x-full");
+    document.querySelector("#nav").classList.remove("drop-shadow-md");
   }
 
   static async checkOut() {

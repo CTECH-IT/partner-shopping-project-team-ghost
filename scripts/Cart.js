@@ -17,8 +17,8 @@ export class Cart {
   static initializeCart() {
     Cart.cartModalElement = document.querySelector(Cart.CART_MODAL_SELECTOR);
     document.querySelector("[data-nav-cart]").addEventListener("click", () => {
-      Cart.toggleCartModal();
       Checkout.closeCheckoutModal();
+      Cart.toggleCartModal();
     });
     document.querySelectorAll("[data-cart-minus]").forEach((button) => {
       button.addEventListener("click", (e) => {
@@ -50,7 +50,7 @@ export class Cart {
         Cart.closeCartModal();
         Checkout.openCheckoutModal();
       } else {
-        window.alert("No")
+        window.alert("No");
       }
     });
   }
@@ -60,10 +60,12 @@ export class Cart {
       e.value = Cart.order[e.getAttribute("data-cart-quantity")];
     });
     Cart.cartModalElement.classList.remove("-translate-x-full");
+    document.querySelector("#nav").classList.add("drop-shadow-md");
   }
 
   static closeCartModal() {
     Cart.cartModalElement.classList.add("-translate-x-full");
+    document.querySelector("#nav").classList.remove("drop-shadow-md");
   }
 
   static toggleCartModal() {
