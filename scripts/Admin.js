@@ -9,16 +9,17 @@ async function initialize() {
   window.DataStore = DataStore;
   orders = await DataStore.get("orders");
   newCard = await getNewCard();
-  update();
+  update(true);
 }
 
 async function getNewCard() {
   return await (await fetch("../ordercard.html")).text();
 }
 
-async function update() {
+async function update(force) {
   let checkNew = await DataStore.get("orders");
-  if (checkNew != orders) {
+  if (checkNew.length != orders.length || force) {
+    console.log("New database changes, updating panel...");
     orders = checkNew;
     document.querySelector("[data-admin-orders]").innerHTML = "";
     orders.forEach((e, i) => {
