@@ -1,0 +1,25 @@
+@keyframes bad {
+  0.0% {
+  }
+  100% {
+  }
+  16.5% {
+    transform: translate(10px);
+  }
+  31.6% {
+    transform: translate(0px);
+  }
+  46.7% {
+    transform: translate(10px);
+  }
+  62.6% {
+    transform: translate(0px);
+  }
+  80.6% {
+    transform: translate(10px);
+  }
+}
+
+form .required:invalid {
+  animation: bad 1s ease 0s infinite normal none;
+}

@@ -1,4 +1,5 @@
 import { Cart } from "./Cart.js";
+import { Checkout } from "./Checkout.js";
 import { DataStore } from "./DataStore.js";
 
 export class Selection {
@@ -83,6 +84,7 @@ export class Selection {
       Cart.order[Selection.currentFlavor] += parseInt(
         document.querySelector('[data-button-quantity="order"]').value
       );
+      Checkout.closeCheckoutModal();
       Cart.openCartModal();
     });
     Selection.updateFlavor();

@@ -13,7 +13,15 @@ export class Checkout {
     );
     document
       .querySelector("[data-checkout-confirm]")
-      .addEventListener("click", (e) => {
+      .addEventListener("click", () => {
+        document.querySelectorAll("form [required]").forEach((e) => {
+          e.classList.add("required");
+        });
+      });
+    document
+      .querySelector("[data-checkout-modal]")
+      .addEventListener("submit", (e) => {
+        e.preventDefault();
         Checkout.checkOut();
       });
   }
