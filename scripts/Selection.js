@@ -95,7 +95,7 @@ export class Selection {
 
     Selection.flavorImgElement.style.setProperty(
       "background-image",
-      `url(/images/${Selection.currentFlavor}.png)`
+      `url(images/${Selection.currentFlavor}.png)`
     );
     if (oldFlavor) {
       Selection.flavorImgElement.parentElement.classList.remove(
