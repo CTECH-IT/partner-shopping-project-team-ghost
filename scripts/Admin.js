@@ -3,17 +3,26 @@ import { DataStore } from "./DataStore.js";
 let orders;
 let newCard;
 
+window.DataStore = DataStore;
 initialize();
 
 async function initialize() {
-  window.DataStore = DataStore;
-  orders = await DataStore.get("orders");
-  newCard = await getNewCard();
-  update(true);
+  DataStore.get("orders").then(async (res) => {
+    orders = res;
+    newCard = await getNewCard();
+    update(true);
+  }, async () => {
+    let noInternet = await getNoInternet();
+    document.querySelector("[data-admin-orders]").innerHTML = noInternet;
+  })
 }
 
 async function getNewCard() {
   return await (await fetch("../ordercard.html")).text();
+}
+
+async function getNoInternet() {
+  return await (await fetch("../nointernet.html")).text();
 }
 
 async function update(force) {
