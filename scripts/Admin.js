@@ -7,14 +7,22 @@ window.DataStore = DataStore;
 initialize();
 
 async function initialize() {
-  DataStore.get("orders").then(async (res) => {
-    orders = res;
-    newCard = await getNewCard();
-    update(true);
-  }, async () => {
-    let noInternet = await getNoInternet();
-    document.querySelector("[data-admin-orders]").innerHTML = noInternet;
-  })
+  try {
+    DataStore.get("orders").then(
+      async (res) => {
+        orders = res;
+        newCard = await getNewCard();
+        update(true);
+      },
+      async () => {
+        let noInternet = await getNoInternet();
+        document.querySelector("[data-admin-orders]").innerHTML = noInternet;
+      }
+    );
+  } catch (e) {
+    document.querySelector("[data-admin-orders]").innerHTML =
+      "<p>Please upgrade to a less secure browser to view this page.</p>";
+  }
 }
 
 async function getNewCard() {
