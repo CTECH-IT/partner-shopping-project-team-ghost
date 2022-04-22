@@ -26,11 +26,11 @@ async function initialize() {
 }
 
 async function getNewCard() {
-  return await (await fetch("../ordercard.html")).text();
+  return await (await fetch("ordercard.html")).text();
 }
 
 async function getNoInternet() {
-  return await (await fetch("../nointernet.html")).text();
+  return await (await fetch("nointernet.html")).text();
 }
 
 async function update(force) {
